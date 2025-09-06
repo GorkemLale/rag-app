@@ -7,7 +7,7 @@ const helmet = require('helmet');  // Security headers
 
 // Route dosyalarını import edeceğimiz yer
 const healthRoutes = require('./src/routes/healthRoutes');  // healthRoutes'ta "h" harfini unuttum, işin kötüsü dosyanın adında da unutmuşum eqwqwe. Not: Buraya yorum satırı olarak unuttuğum şeyi yazarken de unuttum eqwqwe
-
+const chatRoutes = require('./src/routes/chatRoutes');
 
 const app = express();  // express application instance oluşturuyoruz.
 
@@ -30,9 +30,13 @@ app.use(express.urlencoded({  // URL encoded data parsing (form data için) !Ne 
     limit: '10mb'
 }));
 
+// GEÇİCİ UI!!!
+app.use(express.static('public'));
+
 //app.get değil app.use kullanacağız aşağıdaki satır için, unutma!
 // Routes mounting - URL prefix (/) ile route dosyalarını bağlamak, böylece healthRoutes'taki tüm route'lar root'ta olacak
 app.use('/', healthRoutes);  // normal console.log ile sunucu başlatıldı veya res.send ile sunucu çalışıyor gibi output'lar yerine server'ın sağlık durumu profeşyınıl şekilde kontrol ediyoruzz.
+app.use('/',chatRoutes);  // Bu adrese post isteği atınca düzgün formatta, işte o zaman modele prompt gireceğiz. model response dönünce de onu görüntülemek için bir yer seçeceğiz.
 
 // app.use('*', (req, res) => {  // 404 handler, hiçbir route match etmezse yani not found olursa nereye geleceğini biliyorsun.
 //     res.status(404).json({

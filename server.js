@@ -8,7 +8,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Server'ı başlat ve belirtilen PORT'ta dinlemeye başla
 app.listen(PORT, () => {
-    console.log("Server'ı dinliyom da bu parça sarmadı bea! ahan da PORT: ", PORT);
+    console.log("Server'ı dinliyom da bu parça sarmadı bea! ahan da PORT:", PORT);
     console.log(`Bi' çekap yaaptırcem diyosan buyur geyl: http://localhost:${PORT}/health`);  // Test URL'sini belirteyoz.
     console.log("Server'a bi bakem deyosan işte lingi: http://localhost:", PORT);
 });
