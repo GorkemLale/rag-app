@@ -1,0 +1,20 @@
+services:
+  rag-backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: rag-backend-container
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+    env_file:
+      - ./server/.env
+    restart: unless-stopped
+    networks:
+      - rag-network
+
+networks:
+  rag-network:
+    driver: bridge
