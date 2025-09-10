@@ -7,7 +7,7 @@ class ChatController {
     // Normal function'da this context kaybı, dün çalıştım ama tekrar bak, bu yüzden hata veriyor. Bundan dolayı arrow function'a çeviriyoruz. Hatırladığım kadarıyla function declaration içindeki this kendi this'i oluyor ama arrow function'da üst scope'un dizinini kullanıyor.
     chat = async (req, res) => {
         try {
-            const { question } = req.body;
+            const { question, sessionId } = req.body;  // sessionId ekle, frontend'den gelecek.
 
             if (!question) {
                 return res.status(400).json({  // return neden? çıksın diye mi? anlamadım, anlamına bak!
@@ -15,15 +15,20 @@ class ChatController {
                     message: 'Question is required'
                 });
             }
-            
-            const result = await this.openaiService.generateResponse(question);
 
-            console.log("Message is sent successfuly");
+            // Memory ile chat
+            const result = await this.openaiService.generateResponseWithMemory(
+                question,
+                sessionId || "default"
+            );
+
+            console.log("Message is sent successfuly");  // debug line ;)
             res.status(200).json({
                 success: true,
                 data: {
                     question: question,
-                    answer: result.content  // anladığım kadarıyla bu aşama UI'da gösterebilmek adına. yani react'tan axios ile fetch yaparsak yani api isteği atarsak bu verilere erişmek için res.status(200).json({soru ve cevap interaktifi}) olması lazım.
+                    answer: result.content,  // anladığım kadarıyla bu aşama UI'da gösterebilmek adına. yani react'tan axios ile fetch yaparsak yani api isteği atarsak bu verilere erişmek için res.status(200).json({soru ve cevap interaktifi}) olması lazım.
+                    sessionId: sessionId || 'default'
                 }
             });
             console.log(result.content);
@@ -33,6 +38,24 @@ class ChatController {
             res.status(500).json({
                 success: false,
                 message: err.message || 'Failed to generate response'
+            });
+        }
+    }
+
+    // Session temizleme endpoint'i
+    clearChat = async (req, res) => {
+        try {
+            const { sessionId } = req.body;
+            this.openaiService.clearSession(sessionId || 'default');
+
+            res.json({
+                success: true,
+                message: 'Chat history cleared'
+            });
+        } catch (err) {
+            res.status(500).json({
+                success: false,
+                message: 'Failed to clear chat'
             });
         }
     }

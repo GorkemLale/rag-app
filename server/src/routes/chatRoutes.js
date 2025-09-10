@@ -5,5 +5,6 @@ const chatController = require('../controllers/chatController');
 const router = express.Router();
 
 router.post('/chat', chatController.chat);
+router.post('/clear', chatController.clearChat);  // Clear endpoint
 
 module.exports = router;  // bunu da app.js'e import edeceğiz. o yüzden buradan export ediyok.
