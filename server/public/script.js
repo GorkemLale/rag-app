@@ -1,3 +1,5 @@
+// Saf JavaScript ile UI yazmaktan nefret ediyorum!
+
 document.getElementById('sendBtn').addEventListener("click", sendMessage);
 
 async function sendMessage() {
@@ -43,3 +45,16 @@ function displayResponse(data) {
     const responseArea = document.getElementById("responseArea");
     responseArea.innerHTML += `<p><strong>Response:</strong> ${data}</p>`;
 }
+
+// async function uploadFile() {
+//     const fileInput = document.getElementById('fileInput');
+//     const btn = document.getElementById('uploadBtn');
+
+//     if (!fileInput.files[0]) {
+//         alert('Lütfen bir dosya seçin.');
+//         return;
+//     }
+
+//     const formData = new FormData();
+//     formData.append('file', fileInput.files[0]);
+// }

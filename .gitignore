@@ -1,5 +1,21 @@
-server/node_modules/
-server/.env
-server/logs/
-server/*.log
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment
+.env
+*/.env
+
+# Logs  
+logs/
+*.log
+*/logs/
+*/*.log
+
+# OS
 .DS_Store
+.vscode/
+
+# RAG specific
+chromadb_data/
+uploads/
