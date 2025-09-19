@@ -15,11 +15,11 @@ const documentController = {
             }
             
             // Multer'ın otomatik olarak diske de kaydettiği dosya bilgilerini alıyoruz burada 
-            const { originalName, filename, size, mimetype, path: filePath } = req.file;
+            const { originalname, filename, size, mimetype, path: filePath } = req.file;
 
             // console'a debug bilgisi geçelimss
             console.log("Dosya başarıyla yüklendi:", {
-                original: originalName,
+                original: originalname,
                 saved: filename,
                 size: size,
                 type: mimetype,
@@ -27,8 +27,8 @@ const documentController = {
             });
 
             // Veritabanına kayıt oluştur.
-            const Document = new Document({
-                originalName: originalName,
+            const document = new Document({
+                originalName: originalname,
                 filename: filename,
                 size: size,
                 mimeType: mimetype,
@@ -71,3 +71,5 @@ const documentController = {
     }
     // listDocuments
 }
+
+module.exports = documentController;

@@ -7,6 +7,9 @@ COPY package*.json ./
 
 RUN npm ci # dev dependencies dahil
 
+# Dockerfile.dev - RUN npm ci'den sonra ekle:
+RUN mkdir -p uploads && chmod 777 uploads
+
 COPY . .
 
 EXPOSE 5000

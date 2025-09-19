@@ -54,3 +54,4 @@ const upload = multer({
 
 // Export ettiğimiz şey aslında middleware function'ı
 // .single('file') = tek dosya upload'u, 'file' ise HTML formattaki input name'dir. <input type="file name="file" />
+module.exports = upload.single('file');

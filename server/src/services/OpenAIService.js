@@ -86,7 +86,7 @@ class OpenAIService {  // This is a service class. Its purpose is to simplify an
     }
 
     clearSession(sessionId = 'default') {
-        this.conversation.delete(sessionId);
+        this.conversations.delete(sessionId);  // Yanlışlıkla conversation yazmıştım :D, düzeltildi.
     }
 
     // Eski method'u koru (backward compatibility)

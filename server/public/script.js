@@ -46,15 +46,42 @@ function displayResponse(data) {
     responseArea.innerHTML += `<p><strong>Response:</strong> ${data}</p>`;
 }
 
-// async function uploadFile() {
-//     const fileInput = document.getElementById('fileInput');
-//     const btn = document.getElementById('uploadBtn');
+async function uploadFile() {
+    const fileInput = document.getElementById('fileInput');
+    const btn = document.getElementById('uploadBtn');
 
-//     if (!fileInput.files[0]) {
-//         alert('Lütfen bir dosya seçin.');
-//         return;
-//     }
+    if (!fileInput.files[0]) {
+        alert('Lütfen bir dosya seçin.');
+        return;
+    }
 
-//     const formData = new FormData();
-//     formData.append('file', fileInput.files[0]);
-// }
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+    
+    btn.disabled = true;
+    btn.textContent = 'Yükleniyor işte';
+
+    try {
+        const response = await fetch('/docs/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            alert('Dosya başarıyla yüklendi.');
+            console.log("Upload result:", data.data);
+        } else {
+            alert('Upload hatası: ' + data.message);
+        }
+    } catch (err) {
+        console.log('Upload error', err);
+        alert('Upload hatası: ' + err.message);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Yükle';
+    }
+}
+
+const btn = document.getElementById('uploadBtn').addEventListener('click', uploadFile);

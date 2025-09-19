@@ -1,10 +1,15 @@
 const express = require('express');  // sunucuyu ayağa kaldıracağız sonuçta, web framework
+const mongoose = require('mongoose');
 const app = require('./app');  // Express app'i import ettik. app.js ile bağladık.
 
 const PORT = process.env.PORT || 5000;  // Environment'tan PORT değerini al, yoksa da 5000 kullan
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
+// MongoDB bağlantısı
+mongoose.connect(process.env.MONGODB_URI_CONTAINER || 'mongodb://localhost:27017/rag-app')
+  .then(() => console.log('MongoDB bağlantısı başarılı'))
+  .catch(err => console.error('MongoDB bağlantı hatası:', err));
 
 // Server'ı başlat ve belirtilen PORT'ta dinlemeye başla
 app.listen(PORT, () => {

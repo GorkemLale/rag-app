@@ -14,12 +14,29 @@ services:
     volumes:
       # Hot reload için kod değişikliklerini izle
       - ./server:/app
-      - /app/node_modules
+      - ./server/uploads:/app/uploads
     command: npm run dev  # nodemon kullanmak için
     restart: unless-stopped
+    depends_on:
+      - mongodb  # bu satırı unutma amanın
+    networks:
+      - rag-network
+  
+  mongodb:
+    image: mongo:7
+    container_name: rag-mongodb-dev
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: rag_app
+    volumes:
+      - mongodb_dev_data:/data/db
     networks:
       - rag-network
 
 networks:
   rag-network:
     driver: bridge
+
+volumes:
+  mongodb_dev_data:
