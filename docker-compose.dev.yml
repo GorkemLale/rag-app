@@ -12,9 +12,9 @@ services:
     env_file:
       - ./server/.env
     volumes:
-      # Hot reload için kod değişikliklerini izle
+      # Hot reload (anında yeniden yükleme) için kod değişikliklerini izle
       - ./server:/app
-      - ./server/uploads:/app/uploads
+    user: "nodejs"
     command: npm run dev  # nodemon kullanmak için
     restart: unless-stopped
     depends_on:

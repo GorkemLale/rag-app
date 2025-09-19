@@ -6,8 +6,11 @@ const PORT = process.env.PORT || 5000;  // Environment'tan PORT değerini al, yo
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
+const URI_DATABASE_HOST = process.env.MONGODB_URI_HOST;
+const URI_DATABASE_CONTAINER = process.env.MONGODB_URI_CONTAINER;
+
 // MongoDB bağlantısı
-mongoose.connect(process.env.MONGODB_URI_CONTAINER || 'mongodb://localhost:27017/rag-app')
+mongoose.connect(URI_DATABASE_CONTAINER || 'mongodb://mongodb:27017/rag-app')
   .then(() => console.log('MongoDB bağlantısı başarılı'))
   .catch(err => console.error('MongoDB bağlantı hatası:', err));
 

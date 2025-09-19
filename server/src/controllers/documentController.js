@@ -2,6 +2,7 @@ const Document = require('../models/Document');  // Document modelimizi import e
 const fs = require('fs').promises;  // Async file operations için promises API'si
 const path = require('path');  // Dosya yolu işlemleri cart curt
 const pdfParse = require('pdf-parse');  // PDF'den metin çıkarmak için
+const chromaDBService = require('../services/ChromaDBService');
 
 const documentController = {
     uploadDocument: async (req, res) => {

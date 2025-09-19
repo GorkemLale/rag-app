@@ -7,8 +7,8 @@ COPY package*.json ./
 
 RUN npm ci # dev dependencies dahil
 
-# Dockerfile.dev - RUN npm ci'den sonra ekle:
-RUN mkdir -p uploads && chmod 777 uploads
+# Bu sayede uploads dosyasına herkes yazabilecek ve EACCES: permission denided, open 'uploads/tarih_iceren_unique_name.pdf'  // Ayrıca dikkat çekmek isterim ki yml dosyasında volume'da ./server/uploads'ı /app/uploads'a eşledik (./server/uploads:/app/uploads). O yüzden burada da hem app/'i hem de başındaki slash'ı unutma. Yani görüntü şu olacak: /app/uploads
+RUN mkdir -p /app/uploads && chmod -R 777 /app/uploads
 
 COPY . .
 
