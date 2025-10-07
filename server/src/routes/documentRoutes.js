@@ -8,4 +8,8 @@ const router = express.Router();  // Router instance'ı oluşturarak modüler ro
 // upload middleware'i önce çalışır, dosyayı diske kaydeder. Sonra documentController.uploadDocument çalışır. Veritabanına kaydeder...
 router.post('/upload', upload, documentController.uploadDocument);
 
+router.get('/list', documentController.listDocuments);
+
+router.get('/list/:id', documentController.getDocumentById);
+
 module.exports = router;

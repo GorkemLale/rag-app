@@ -66,7 +66,8 @@ const documentSchema = new mongoose.Schema({
 });
 
 // Index'ler ile veritabanı performansı sağlanır. Arama durumu için mesela
-documentSchema.index({ filename: 1 });  // Bu sayede filename'e göre arama hızlanmış olur.
+// documentSchema.index({ filename: 1 });  // Bu sayede filename'e göre arama hızlanmış olur.
+// Schema tanımlanırken içinde index: true olan bir field varsa onu bir de burada index'lemek sıkıntı yaşatabilir.
 documentSchema.index({ isIndexed: 1 });  // Bunla da index'liler ve index'sizler bir sırada olur.
 documentSchema.index({ createdAt: -1 });  // Bununla ise oluşturulma tarihine göre sıralama hızlanır yani en yeni dökümanlar en üstte
 

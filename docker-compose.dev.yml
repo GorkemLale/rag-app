@@ -6,9 +6,6 @@ services:
     container_name: rag-backend-dev-container
     ports:
       - "5000:5000"
-    environment:
-      - NODE_ENV=development
-      - PORT=5000
     env_file:
       - ./server/.env
     volumes:
@@ -17,8 +14,9 @@ services:
     user: "nodejs"
     command: npm run dev  # nodemon kullanmak için
     restart: unless-stopped
-    depends_on:
+    depends_on:  # Bunun sayesinde rag_backend-dev servisi başlamadan önce hangi diğer servislerin başlaması gerektiğini belirtiyoruz. Yani "docker compose up" komutu çalıştırıldığında depends_on içindeki servisler depends_on'un bulunduğu servisten önce başlatılır. örneğin web uygulamamızın (Web Service) bir veritabanına (DB Service) bağlanması gerekiyorsa bu web servisi db servise bağımlı yaparız. Durdurma sırasında ise tam tersi geçerlidir, Web service, DB Service'ten önce durdurulur. Bir nevi FILO (first-in last-out) durumu. Ama depends_on'un garantilemediği bir şey vardır. Altında liste (dizi) formatında verilen servislerin hazır olması gerektiği garantisini vermez. Başlayıp başlamaması ile ilgilenir. Yani bir nevi asenkron programlama gibi ama daha farklı :) Bunu da MongoDB ve chroma'nın bağlantısını yapmadan önce kontrol ederek sağlama alabiliriz. Yani await mongoose.connect(MONGO_URI) yapıp bağlanmasını bekleriz. Bunu try-catch bloğunda yaparız ve eğer hata alırsa catch bloğuna yönlendirilir. Bu da veritabanı bağlantısı/bağlantıları olmaksızın ana servisin çalışmasına devam etmesini engeller ve catch bloğuyla exit olur..
       - mongodb  # bu satırı unutma amanın
+      - chromadb
     networks:
       - rag-network
   
@@ -34,6 +32,14 @@ services:
     networks:
       - rag-network
 
+  chromadb:
+    image: ghcr.io/chromadb-core/chroma:latest
+    container_name: rag-chromadb-dev
+    ports:
+      - "8000:8000"  # container'ın içindeki 8000 port'unu host'un 8000 port'una bağlıyor. Ama soldaki host'u sağdaki ise container'ı belirler. Karışma olmasın. Sol host, sağ container. Sol dış dünya sağ iç dünya.
+    environment:
+      - IS_PERSISTENT: true
+      
 networks:
   rag-network:
     driver: bridge
